@@ -92,4 +92,9 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "https://www.goldenhillsoftware.com/", UrlCompressor.decompressed_relative_url("http://www.goldenhillsoftware.com/feed/", "Agoldenhillsoftware.com/")
 	end
 	
+	def test_redirect_to_self
+		assert_equal "I", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://www.goldenhillsoftware.com/feed/")
+		assert_equal "Agoldenhillsoftware.com/feed/", UrlCompressor.compressed_relative_url("httpz://www.goldenhillsoftware.com/feed/", "httPS://wwW.Goldenhillsoftware.com/feed/")
+	end
+	
 end
