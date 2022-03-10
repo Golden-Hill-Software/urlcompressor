@@ -110,6 +110,14 @@ class UrlCompressor
 	end
 	
 	def self.decompressed_relative_url(decompressed_origin_url_string, compressed_relative_url)
+		if compressed_relative_url.nil?
+			return nil
+		end
+		if compressed_relative_url.start_with?("A") or compressed_relative_url.start_with?("B") or compressed_relative_url.start_with?("C") or compressed_relative_url.start_with?("D") or compressed_relative_url.start_with?("F") or compressed_relative_url.start_with?("G")
+			if !compressed_relative_url.nil? and compressed_relative_url.index("/").nil?
+				compressed_relative_url = compressed_relative_url + "/"
+			end
+		end
 		decompressed_relative_url = decompressed_url_string(compressed_relative_url)
 		return from_relative_url(decompressed_origin_url_string, decompressed_relative_url)
 	end
