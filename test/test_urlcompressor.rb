@@ -119,4 +119,39 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "https://www.goldenhillsoftware.com/", UrlCompressor.decompressed_relative_url("http://www.goldenhillsoftware.com/feed/", compressed)
 	end
 	
+	def test_lossless
+		assert_equal "Agoldenhillsoftware.coM:443/foo", UrlCompressor.losslessly_compressed_url("https://www.goldenhillsoftware.coM:443/foo")
+		assert_equal "IhttPs://www.goldenhillsoftware.coM:443/foo", UrlCompressor.losslessly_compressed_url("httPs://www.goldenhillsoftware.coM:443/foo")
+	
+		assert_nil UrlCompressor.losslessly_compressed_url(nil)
+		assert_nil UrlCompressor.losslessly_decompressed_url(nil)
+	
+		url_strings = [
+			"httpS://www.goldenhillsoftware.com:443/foo/",
+			"httpS://www.goldenhillsoftware.com:443/foo/",
+			"httpS://goldenhillsoftware.com:443/foo",
+			"httP://www.goldenhillsoftware.com:80/foo",
+			"httP://goldenhillsoftware.com:80/foo",
+			"httpS://www.goldenhillsoftware.com:443/foo",
+			"httpS://www.goldenhillsoftware.com:443/foo/",
+			"httpS://goldenhillsoftware.com:443/foo",
+			"httP://www.goldenhillsoftware.com:80/foo",
+			"httP://goldenhillsoftware.com:80/foo",
+			"httP://goldenhillsoftware.com:80",
+			"httP://goldenhillsoftware.com:80/",
+			"httP://goldenhillsoftware.com:80/?ab",
+			"httP://goldenhillsoftware.com:80/#ab",
+			"httpS://www.",
+			"httpS://",
+			"httP://www.",
+			"httP://",
+			"foobar"
+		]
+
+		url_strings.each do |url_string|
+			assert_equal url_string, UrlCompressor.losslessly_decompressed_url(UrlCompressor.losslessly_compressed_url(url_string))
+		end
+		
+	end
+	
 end

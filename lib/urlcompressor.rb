@@ -139,6 +139,22 @@ class UrlCompressor
 
 	end
 	
+	# For when we really need to regenerate the string -- presumably but not necessarily a URL -- exactly as it
+	# was read in. No normalizing. Used for Websub topics, where the strings are server-specified, and I can't assume
+	# (or trust) that the topic is a URL or that the server can handle insignificant differences.
+	
+	def self.losslessly_compressed_url(url_string)
+		compressed_url_string = compressed_url_string(url_string)
+		if !compressed_url_string.nil? and compressed_url_string.index('/') == compressed_url_string.length - 1
+			compressed_url_string = compressed_url_string[0..compressed_url_string.length-2]
+		end
+		return compressed_url_string
+	end
+	
+	def self.losslessly_decompressed_url(compressed_url_string)
+		return decompressed_url_string(compressed_url_string)
+	end
+	
 	private
 	
 	def self.compressed_url_string(url_string)
