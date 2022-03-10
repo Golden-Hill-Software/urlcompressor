@@ -40,11 +40,24 @@ class UrlCompressor
 
 	def self.compressed_url(url_string)
 		normalized = normalized_url(url_string)
-		return compressed_url_string(normalized)
+		compressed_url_string = compressed_url_string(normalized)
+		if !compressed_url_string.nil? and compressed_url_string.index('/') == compressed_url_string.length - 1
+			compressed_url_string = compressed_url_string[0..compressed_url_string.length-2]
+		end
+		return compressed_url_string
 	end
 	
 	def self.decompressed_url(compressed_url_string)
-		return decompressed_url_string(compressed_url_string)
+		result = decompressed_url_string(compressed_url_string)
+		begin
+			uri = URI(result)
+			if uri.path.nil? or uri.path.length == 0
+				uri.path = "/"
+			end
+			result = uri.to_s
+		rescue
+		end
+		return result
 	end
 	
 	def self.relative_url(origin_url_string, url_string)
