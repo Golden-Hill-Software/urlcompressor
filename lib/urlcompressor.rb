@@ -20,10 +20,11 @@ class UrlCompressor
 		Pair.new("C", "http://www."),
 		Pair.new("D", "http://"),
 		Pair.new("E", "../"), # Note that this only removes the first ../
-		Pair.new("F", "//www."),
-		Pair.new("G", "//"),
-		Pair.new("H", "/"),
-		Pair.new("I", ""),
+		Pair.new("F", "./"), # Note that this only removes the first ../
+		Pair.new("G", "//www."),
+		Pair.new("H", "//"),
+		Pair.new("I", "/"),
+		Pair.new("J", ""),
 	]
 
 	def self.normalized_url(url_string)
@@ -115,7 +116,7 @@ class UrlCompressor
 		if compressed_relative_url.nil?
 			return nil
 		end
-		if compressed_relative_url.start_with?("A") or compressed_relative_url.start_with?("B") or compressed_relative_url.start_with?("C") or compressed_relative_url.start_with?("D") or compressed_relative_url.start_with?("F") or compressed_relative_url.start_with?("G")
+		if compressed_relative_url.start_with?("A") or compressed_relative_url.start_with?("B") or compressed_relative_url.start_with?("C") or compressed_relative_url.start_with?("D") or compressed_relative_url.start_with?("G") or compressed_relative_url.start_with?("H")
 			if !compressed_relative_url.nil? and compressed_relative_url.index("/").nil?
 				compressed_relative_url = compressed_relative_url + "/"
 			end
@@ -131,7 +132,7 @@ class UrlCompressor
 		end
 		compressed_url_string = compressed_url_string(relative_url)
 
-		if compressed_url_string.start_with?("A") or compressed_url_string.start_with?("B") or compressed_url_string.start_with?("C") or compressed_url_string.start_with?("D") or compressed_url_string.start_with?("F") or compressed_url_string.start_with?("G")
+		if compressed_url_string.start_with?("A") or compressed_url_string.start_with?("B") or compressed_url_string.start_with?("C") or compressed_url_string.start_with?("D") or compressed_url_string.start_with?("G") or compressed_url_string.start_with?("H")
 			if !compressed_url_string.nil? and compressed_url_string.index('/') == compressed_url_string.length - 1
 				compressed_url_string = compressed_url_string[0..compressed_url_string.length-2]
 			end
