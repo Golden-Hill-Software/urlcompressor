@@ -205,11 +205,22 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("http://blog.virtualsanity.com/foobar", "ovirtualsanity.com/foobar")
 		
 		assert_pair("https://www.goldenhillsoftware.com/private/testfeed.xml?foobar=22bf6760-6dcd-4596-b9ed-6c8aad2999a1", "p22bf6760-6dcd-4596-b9ed-6c8aad2999a1")
+		
+# 		assert_equal "Ichannel/UCJ0uqCI0Vqr2Rrt1HseGirg", get_website_url_for_feed_url("https://www.youtube.com/feeds/videos.xml?channel_id=UCJ0uqCI0Vqr2Rrt1HseGirg")
+# 		assert_equal "Iplaylist?list=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", get_website_url_for_feed_url("https://www.youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
+
+		assert_relative("https://www.youtube.com/feeds/videos.xml?channel_id=UCJ0uqCI0Vqr2Rrt1HseGirg", "https://www.youtube.com/channel/UCJ0uqCI0Vqr2Rrt1HseGirg", "qUCJ0uqCI0Vqr2Rrt1HseGirg")
+		assert_relative("https://www.youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "https://www.youtube.com/playlist?list=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "rPLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
 	end
 	
 	def assert_pair(decompressed, compressed)
 		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
 		assert_equal decompressed, UrlCompressor.decompressed_url(compressed), "decompression failed for #{compressed}"
+	end
+	
+	def assert_relative(decompressed_origin_url, decompressed_relative, compressed_relative)
+		assert_equal compressed_relative, UrlCompressor.compressed_relative_url(decompressed_origin_url, decompressed_relative), "compression failed for #{decompressed_relative} from #{decompressed_origin_url}"
+		assert_equal decompressed_relative, UrlCompressor.decompressed_relative_url(decompressed_origin_url, compressed_relative), "decompression failed for #{compressed_relative} from #{decompressed_origin_url}"
 	end
 	
 end

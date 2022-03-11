@@ -35,6 +35,10 @@ class UrlCompressor
 
 		Pair.new("p", "https://www.goldenhillsoftware.com/private/testfeed.xml?foobar="),
 
+		# for relative urls for YouTube Website URLs
+		Pair.new("q", "/channel/"),
+		Pair.new("r", "/playlist?list="),
+
 		Pair.new("A", "https://www."),
 		Pair.new("B", "https://"),
 		Pair.new("C", "http://www."),
