@@ -144,6 +144,8 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "https://jaredsinclair.com/longassedprefix/foo", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "Jfoo")
 		assert_equal "https://jaredsinclair.com/longassedprefix/foo/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "Jfoo/")
 
+		assert_equal "I", UrlCompressor.compressed_relative_url("https://bluelemonbits.com/feed/", "https://bluelemonbits.com")
+
 	end
 	
 	def test_lossless

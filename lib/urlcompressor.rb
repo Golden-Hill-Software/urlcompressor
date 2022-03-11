@@ -81,6 +81,9 @@ class UrlCompressor
 			
 			begin
 				uri = URI(url_string)
+				if uri.path.nil? or uri.path.empty?
+					uri.path = "/"
+				end
 				from_root = uri.path
 				if !uri.query.nil? and uri.query.length > 0
 					from_root += "?#{uri.query}"
@@ -88,7 +91,7 @@ class UrlCompressor
 				if !uri.fragment.nil? and uri.fragment.length > 0
 					from_root += "##{uri.fragment}"
 				end
-				if (from_root.length < likely_result.length) and from_relative_url(origin_url_string, likely_result) == from_relative_url(origin_url_string, from_root)
+				if (from_root.length <= likely_result.length) and from_relative_url(origin_url_string, likely_result) == from_relative_url(origin_url_string, from_root)
 					return from_root
 				else
 					return likely_result
