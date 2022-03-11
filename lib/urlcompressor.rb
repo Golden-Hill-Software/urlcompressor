@@ -33,6 +33,7 @@ class UrlCompressor
 		Pair.new("n", "https://blog."),
 		Pair.new("o", "http://blog."),
 
+		Pair.new("p", "https://www.goldenhillsoftware.com/private/testfeed.xml?foobar="),
 
 		Pair.new("A", "https://www."),
 		Pair.new("B", "https://"),

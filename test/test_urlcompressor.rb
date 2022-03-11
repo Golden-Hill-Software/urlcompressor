@@ -203,6 +203,8 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("http://blogs.virtualsanity.com/foobar", "mvirtualsanity.com/foobar")
 		assert_pair("https://blog.virtualsanity.com/foobar", "nvirtualsanity.com/foobar")
 		assert_pair("http://blog.virtualsanity.com/foobar", "ovirtualsanity.com/foobar")
+		
+		assert_pair("https://www.goldenhillsoftware.com/private/testfeed.xml?foobar=22bf6760-6dcd-4596-b9ed-6c8aad2999a1", "p22bf6760-6dcd-4596-b9ed-6c8aad2999a1")
 	end
 	
 	def assert_pair(decompressed, compressed)
