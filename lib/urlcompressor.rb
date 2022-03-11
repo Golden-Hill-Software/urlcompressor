@@ -68,11 +68,13 @@ class UrlCompressor
 			return normalized_url(url_string)
 		end
 		begin
-			likely_result = URI(origin_url_string).normalize.route_to(normalized_url(url_string)).to_s
+			normalized_origin = URI(origin_url_string).normalize
+			normalized_dest = normalized_url(url_string)
+			likely_result = normalized_origin.route_to(normalized_dest).to_s
 			
 			# We know that likely_result will work, route_to tends to use "../" to navigate up, even
 			# starting from the root would be shorter. Try to do that and see if we get a better result
-			if !likely_result.start_with?("../")
+			if !likely_result.start_with?("../") and !likely_result.start_with?("./")
 				return likely_result
 			end
 			

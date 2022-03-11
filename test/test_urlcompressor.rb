@@ -119,6 +119,33 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "https://www.goldenhillsoftware.com/", UrlCompressor.decompressed_relative_url("http://www.goldenhillsoftware.com/feed/", compressed)
 	end
 	
+	def test_relative_more
+		assert_equal "H", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/feed.xml", "https://jaredsinclair.com/")
+		assert_equal "Ifoo", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/feed.xml", "https://jaredsinclair.com/foo")
+		assert_equal "Ifoo/", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/feed.xml", "https://jaredsinclair.com/foo/")
+ 
+		assert_equal "I", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/", "https://jaredsinclair.com/")
+		assert_equal "Ifoo", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/", "https://jaredsinclair.com/foo")
+		assert_equal "Ifoo/", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/", "https://jaredsinclair.com/foo/")
+
+		assert_equal "I./", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "https://jaredsinclair.com/longassedprefix/")
+		assert_equal "Ifoo", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "https://jaredsinclair.com/longassedprefix/foo")
+		assert_equal "Ifoo/", UrlCompressor.compressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "https://jaredsinclair.com/longassedprefix/foo/")
+
+		assert_equal "https://jaredsinclair.com/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/feed.xml", "H")
+		assert_equal "https://jaredsinclair.com/foo", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/feed.xml", "Ifoo")
+		assert_equal "https://jaredsinclair.com/foo/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/feed.xml", "Ifoo/")
+
+		assert_equal "https://jaredsinclair.com/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/", "I")
+		assert_equal "https://jaredsinclair.com/foo", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/", "Ifoo")
+		assert_equal "https://jaredsinclair.com/foo/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/", "Ifoo/")
+
+		assert_equal "https://jaredsinclair.com/longassedprefix/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "I./")
+		assert_equal "https://jaredsinclair.com/longassedprefix/foo", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "Ifoo")
+		assert_equal "https://jaredsinclair.com/longassedprefix/foo/", UrlCompressor.decompressed_relative_url("https://jaredsinclair.com/longassedprefix/feed.xml", "Ifoo/")
+
+	end
+	
 	def test_lossless
 		assert_equal "Agoldenhillsoftware.coM:443/foo", UrlCompressor.losslessly_compressed_url("https://www.goldenhillsoftware.coM:443/foo")
 		assert_equal "IhttPs://www.goldenhillsoftware.coM:443/foo", UrlCompressor.losslessly_compressed_url("httPs://www.goldenhillsoftware.coM:443/foo")
