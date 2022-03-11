@@ -15,6 +15,25 @@ end
 class UrlCompressor
 
 	PAIRS = [
+
+		Pair.new("a", "https://medium.com/feed/"),
+		Pair.new("b", "https://medium.com/@"),
+		Pair.new("c", "http://www.blogger.com/feeds/"),
+		Pair.new("d", "https://feedpress.me/"),
+		Pair.new("e", "http://feeds.feedburner.com/"),
+		Pair.new("f", "https://feeds.feedburner.com/"),
+		Pair.new("g", "http://feeds2.feedburner.com/"),
+		Pair.new("h", "https://feeds2.feedburner.com/"),
+		Pair.new("i", "https://youtube.com/feeds/videos.xml?channel_id="),
+		Pair.new("j", "https://youtube.com/feeds/videos.xml?playlist_id="),
+		Pair.new("k", "https://world.hey.com/"),
+
+		Pair.new("l", "https://blogs."),
+		Pair.new("m", "http://blogs."),
+		Pair.new("n", "https://blog."),
+		Pair.new("o", "http://blog."),
+
+
 		Pair.new("A", "https://www."),
 		Pair.new("B", "https://"),
 		Pair.new("C", "http://www."),

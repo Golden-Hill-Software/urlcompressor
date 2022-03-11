@@ -183,4 +183,31 @@ class UrlCompressorTest < Minitest::Test
 		
 	end
 	
+	def test_site_specific
+		assert_pair("https://medium.com/feed/abcdefg", "aabcdefg")
+		assert_pair("https://medium.com/@jbrayton/feed", "bjbrayton/feed")
+		assert_pair("http://www.blogger.com/feeds/25595390/posts/default", "c25595390/posts/default")
+		assert_pair("https://feedpress.me/512pixels", "d512pixels")
+
+		assert_pair("http://feeds.feedburner.com/37signals/beMH", "e37signals/beMH")
+		assert_pair("https://feeds.feedburner.com/37signals/beMH", "f37signals/beMH")
+		assert_pair("http://feeds2.feedburner.com/37signals/beMH", "g37signals/beMH")
+		assert_pair("https://feeds2.feedburner.com/37signals/beMH", "h37signals/beMH")
+		
+		assert_pair("https://youtube.com/feeds/videos.xml?channel_id=UC3XTzVzaHQEd30rQbuvCtTQ", "iUC3XTzVzaHQEd30rQbuvCtTQ")
+		assert_pair("https://youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "jPLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
+
+		assert_pair("https://world.hey.com/jordanmorgan/feed.atom", "kjordanmorgan/feed.atom")
+
+		assert_pair("https://blogs.virtualsanity.com/foobar", "lvirtualsanity.com/foobar")
+		assert_pair("http://blogs.virtualsanity.com/foobar", "mvirtualsanity.com/foobar")
+		assert_pair("https://blog.virtualsanity.com/foobar", "nvirtualsanity.com/foobar")
+		assert_pair("http://blog.virtualsanity.com/foobar", "ovirtualsanity.com/foobar")
+	end
+	
+	def assert_pair(decompressed, compressed)
+		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
+		assert_equal decompressed, UrlCompressor.decompressed_url(compressed), "decompression failed for #{compressed}"
+	end
+	
 end
