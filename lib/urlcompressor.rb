@@ -38,6 +38,7 @@ class UrlCompressor
 		# for relative urls for YouTube Website URLs
 		Pair.new("q", "/channel/"),
 		Pair.new("r", "/playlist?list="),
+		Pair.new("s", "https://micro"),
 
 		Pair.new("A", "https://www."),
 		Pair.new("B", "https://"),
