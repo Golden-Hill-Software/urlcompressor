@@ -244,6 +244,15 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://www.quantumg.blogspot.com/", "_2Aquantumg")
 	end
 	
+	def test_microdotblog
+		assert_pair("https://news.micro.blog/feed.json", "_3Bnews")
+		assert_pair("https://foo.micro.blog/feed.json", "_3Bfoo")
+		assert_pair("https://dialog.micro.blog/feed.xml", "_4Bdialog")
+		assert_pair("https://foo.micro.blog/feed.xml", "_4Bfoo")
+		assert_pair("https://isaiah.micro.blog/", "_5Bisaiah")
+		assert_pair("https://foo.micro.blog/", "_5Bfoo")
+	end
+	
 	def assert_pair(decompressed, compressed)
 		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
 		assert_equal decompressed, UrlCompressor.decompressed_url(compressed), "decompression failed for #{compressed}"

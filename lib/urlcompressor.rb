@@ -75,6 +75,9 @@ class UrlCompressor
 		RegularExpressionReplacement.new("1", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default\?alt=rss$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default?alt=rss'),
 		RegularExpressionReplacement.new("0", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default'),
 		RegularExpressionReplacement.new("2", /^([A-Za-z0-9]+)\.blogspot.com\/$/, '\1', /^(.*)$/, '\1.blogspot.com/'),
+		RegularExpressionReplacement.new("3", /^([A-Za-z0-9]+)\.micro.blog\/feed\.json$/, '\1', /^(.*)$/, '\1.micro.blog/feed.json'),
+		RegularExpressionReplacement.new("4", /^([A-Za-z0-9]+)\.micro.blog\/feed\.xml$/, '\1', /^(.*)$/, '\1.micro.blog/feed.xml'),
+		RegularExpressionReplacement.new("5", /^([A-Za-z0-9]+)\.micro.blog\/$/, '\1', /^(.*)$/, '\1.micro.blog/'),
 	]
 
 	def self.normalized_url(url_string)
