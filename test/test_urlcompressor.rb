@@ -275,7 +275,16 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://foobar.com/site/index.xml", "_9Bfoobar.com/site")
 		assert_pair("https://www.foobar.com/index.xml", "_9Afoobar.com")
 		assert_pair("https://foobar.com/index.xml", "_9Bfoobar.com")
-		
+	end
+	
+	def test_dot_com_and_more
+		assert_pair("https://www.foobar.com/blog/feed.xml", "_aAfoobar,.xml")
+		assert_pair("https://www.foobar.com/blog/fe,ed.xml", "Afoobar.com/blog/fe,ed.xml")
+		assert_pair("https://www.foob,ar.com/blog/feed.xml", "_8Afoob,ar.com/blog")
+
+		assert_pair("https://www.foobar.com/blog/foos", "_bAfoobar,foos")
+		assert_pair("https://www.foobar.com/blog/fo,os", "Afoobar.com/blog/fo,os")
+		assert_pair("https://www.foob,ar.com/blog/foos", "Afoob,ar.com/blog/foos")
 	end
 
 	def test_end_with_slash
