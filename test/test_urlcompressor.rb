@@ -196,6 +196,8 @@ class UrlCompressorTest < Minitest::Test
 		
 		assert_pair("https://youtube.com/feeds/videos.xml?channel_id=UC3XTzVzaHQEd30rQbuvCtTQ", "iUC3XTzVzaHQEd30rQbuvCtTQ")
 		assert_pair("https://youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "jPLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
+		assert_pair("https://www.youtube.com/feeds/videos.xml?channel_id=UC3XTzVzaHQEd30rQbuvCtTQ", "uUC3XTzVzaHQEd30rQbuvCtTQ")
+		assert_pair("https://www.youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "vPLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
 
 		assert_pair("https://world.hey.com/jordanmorgan/feed.atom", "kjordanmorgan/feed.atom")
 
@@ -253,6 +255,10 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://foo.micro.blog/", "_5Bfoo")
 	end
 	
+	def test_end_with_slash
+		assert_pair("https://www.goldenhillsoftware.com/", "Agoldenhillsoftware.com")
+	end
+
 	def assert_pair(decompressed, compressed)
 		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
 		assert_equal decompressed, UrlCompressor.decompressed_url(compressed), "decompression failed for #{compressed}"

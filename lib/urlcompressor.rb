@@ -58,6 +58,8 @@ class UrlCompressor
 		Pair.new("r", "/playlist?list="),
 		Pair.new("s", "https://micro."),
 		Pair.new("t", "https://microblog."),
+		Pair.new("u", "https://www.youtube.com/feeds/videos.xml?channel_id="),
+		Pair.new("v", "https://www.youtube.com/feeds/videos.xml?playlist_id="),
 
 		Pair.new("A", "https://www."),
 		Pair.new("B", "https://"),
