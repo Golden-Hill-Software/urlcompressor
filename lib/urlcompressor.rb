@@ -12,6 +12,24 @@ class Pair
 	
 end
 
+class RegularExpressionReplacement
+	
+	attr_accessor :prefix
+	attr_accessor :input_pattern
+	attr_accessor :input_replacement
+	attr_accessor :output_pattern
+	attr_accessor :output_replacement
+	
+	def initialize(prefix, input_pattern, input_replacement, output_pattern, output_replacement)
+		@prefix = prefix
+		@input_pattern = input_pattern
+		@input_replacement = input_replacement
+		@output_pattern = output_pattern
+		@output_replacement = output_replacement
+	end
+	
+end
+
 class UrlCompressor
 
 	PAIRS = [
@@ -51,6 +69,12 @@ class UrlCompressor
 		Pair.new("H", "//"),
 		Pair.new("I", "/"),
 		Pair.new("J", ""),
+	]
+	
+	REGULAR_EXPRESSION_REPLACEMENTS = [
+		RegularExpressionReplacement.new("1", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default\?alt=rss$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default?alt=rss'),
+		RegularExpressionReplacement.new("0", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default'),
+		RegularExpressionReplacement.new("2", /^([A-Za-z0-9]+)\.blogspot.com\/$/, '\1', /^(.*)$/, '\1.blogspot.com/'),
 	]
 
 	def self.normalized_url(url_string)
@@ -193,18 +217,45 @@ class UrlCompressor
 		if url_string.nil?
 			return nil
 		end
+		prefix = nil
+		str = nil
 		PAIRS.each do |pair|
 			if url_string == pair.long_prefix
-				return pair.short_prefix
+				prefix = pair.short_prefix
+				str = ""
+				break
 			elsif url_string.start_with?(pair.long_prefix)
-				return "#{pair.short_prefix}#{url_string[pair.long_prefix.length...]}"
+				prefix = pair.short_prefix
+				str = url_string[pair.long_prefix.length...]
+				break
 			end
 		end
+		if !str.empty?
+			REGULAR_EXPRESSION_REPLACEMENTS.each do |regexp|
+				if regexp.input_pattern.match(str)
+					str = str.gsub(regexp.input_pattern, regexp.input_replacement)
+					prefix = "_#{regexp.prefix}#{prefix}"
+					break
+				end
+			end
+		end
+		return "#{prefix}#{str}"
 	end
 
 	def self.decompressed_url_string(compressed_url_string)
 		if compressed_url_string.nil?
 			return nil
+		end
+		if compressed_url_string.start_with?("_")
+			regexp_prefix = compressed_url_string[1]
+			remainder = compressed_url_string[3...]
+			REGULAR_EXPRESSION_REPLACEMENTS.each do |regexp|
+				if regexp_prefix == regexp.prefix
+					str = remainder.gsub(regexp.output_pattern, regexp.output_replacement)
+					compressed_url_string = "#{compressed_url_string[2]}#{str}"
+					break
+				end
+			end
 		end
 		PAIRS.each do |pair|
 			if compressed_url_string == pair.short_prefix

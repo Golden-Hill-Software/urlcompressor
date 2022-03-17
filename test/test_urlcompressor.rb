@@ -212,6 +212,38 @@ class UrlCompressorTest < Minitest::Test
 		assert_relative("https://www.youtube.com/feeds/videos.xml?playlist_id=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "https://www.youtube.com/playlist?list=PLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ", "rPLYMMAhTaSiBM_eMmMotetfaNzynKGU9CQ")
 	end
 	
+	def test_blogspot
+		assert_pair("http://paulbuchheit.blogspot.com/feeds/posts/default?alt=rss", "_1Dpaulbuchheit")
+		assert_pair("http://www.paulbuchheit.blogspot.com/feeds/posts/default?alt=rss", "_1Cpaulbuchheit")
+		assert_pair("https://paulbuchheit.blogspot.com/feeds/posts/default?alt=rss", "_1Bpaulbuchheit")
+		assert_pair("https://www.paulbuchheit.blogspot.com/feeds/posts/default?alt=rss", "_1Apaulbuchheit")
+
+		assert_pair("http://quantumg.blogspot.com/feeds/posts/default?alt=rss", "_1Dquantumg")
+		assert_pair("http://www.quantumg.blogspot.com/feeds/posts/default?alt=rss", "_1Cquantumg")
+		assert_pair("https://quantumg.blogspot.com/feeds/posts/default?alt=rss", "_1Bquantumg")
+		assert_pair("https://www.quantumg.blogspot.com/feeds/posts/default?alt=rss", "_1Aquantumg")
+
+		assert_pair("http://prologuist.blogspot.com/feeds/posts/default", "_0Dprologuist")
+		assert_pair("http://www.prologuist.blogspot.com/feeds/posts/default", "_0Cprologuist")
+		assert_pair("https://prologuist.blogspot.com/feeds/posts/default", "_0Bprologuist")
+		assert_pair("https://www.prologuist.blogspot.com/feeds/posts/default", "_0Aprologuist")
+
+		assert_pair("http://googleappstoday.blogspot.com/feeds/posts/default", "_0Dgoogleappstoday")
+		assert_pair("http://www.googleappstoday.blogspot.com/feeds/posts/default", "_0Cgoogleappstoday")
+		assert_pair("https://googleappstoday.blogspot.com/feeds/posts/default", "_0Bgoogleappstoday")
+		assert_pair("https://www.googleappstoday.blogspot.com/feeds/posts/default", "_0Agoogleappstoday")
+
+		assert_pair("http://paulbuchheit.blogspot.com/", "_2Dpaulbuchheit")
+		assert_pair("http://www.paulbuchheit.blogspot.com/", "_2Cpaulbuchheit")
+		assert_pair("https://paulbuchheit.blogspot.com/", "_2Bpaulbuchheit")
+		assert_pair("https://www.paulbuchheit.blogspot.com/", "_2Apaulbuchheit")
+
+		assert_pair("http://quantumg.blogspot.com/", "_2Dquantumg")
+		assert_pair("http://www.quantumg.blogspot.com/", "_2Cquantumg")
+		assert_pair("https://quantumg.blogspot.com/", "_2Bquantumg")
+		assert_pair("https://www.quantumg.blogspot.com/", "_2Aquantumg")
+	end
+	
 	def assert_pair(decompressed, compressed)
 		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
 		assert_equal decompressed, UrlCompressor.decompressed_url(compressed), "decompression failed for #{compressed}"
