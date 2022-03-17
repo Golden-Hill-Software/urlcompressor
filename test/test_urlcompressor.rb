@@ -96,7 +96,7 @@ class UrlCompressorTest < Minitest::Test
 	
 	def test_redirect_to_self
 		assert_equal "J", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://www.goldenhillsoftware.com/feed/")
-		assert_equal "Agoldenhillsoftware.com/feed/", UrlCompressor.compressed_relative_url("httpz://www.goldenhillsoftware.com/feed/", "httPS://wwW.Goldenhillsoftware.com/feed/")
+		assert_equal "_7Agoldenhillsoftware.com", UrlCompressor.compressed_relative_url("httpz://www.goldenhillsoftware.com/feed/", "httPS://wwW.Goldenhillsoftware.com/feed/")
 	end
 	
 	def test_compressed_relative_root
@@ -255,6 +255,29 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://foo.micro.blog/", "_5Bfoo")
 	end
 	
+	def test_common_suffixes
+		assert_pair("https://www.foobar.com/site/feed.json", "_6Afoobar.com/site")
+		assert_pair("https://foobar.com/site/feed.json", "_6Bfoobar.com/site")
+		assert_pair("https://www.foobar.com/feed.json", "_6Afoobar.com")
+		assert_pair("https://foobar.com/feed.json", "_6Bfoobar.com")
+		
+		assert_pair("https://www.foobar.com/site/feed/", "_7Afoobar.com/site")
+		assert_pair("https://foobar.com/site/feed/", "_7Bfoobar.com/site")
+		assert_pair("https://www.foobar.com/feed/", "_7Afoobar.com")
+		assert_pair("https://foobar.com/feed/", "_7Bfoobar.com")
+		
+		assert_pair("https://www.foobar.com/site/feed.xml", "_8Afoobar.com/site")
+		assert_pair("https://foobar.com/site/feed.xml", "_8Bfoobar.com/site")
+		assert_pair("https://www.foobar.com/feed.xml", "_8Afoobar.com")
+		assert_pair("https://foobar.com/feed.xml", "_8Bfoobar.com")
+		
+		assert_pair("https://www.foobar.com/site/index.xml", "_9Afoobar.com/site")
+		assert_pair("https://foobar.com/site/index.xml", "_9Bfoobar.com/site")
+		assert_pair("https://www.foobar.com/index.xml", "_9Afoobar.com")
+		assert_pair("https://foobar.com/index.xml", "_9Bfoobar.com")
+		
+	end
+
 	def test_end_with_slash
 		assert_pair("https://www.goldenhillsoftware.com/", "Agoldenhillsoftware.com")
 	end
