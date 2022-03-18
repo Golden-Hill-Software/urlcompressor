@@ -76,6 +76,7 @@ class UrlCompressor
 	REGULAR_EXPRESSION_REPLACEMENTS = [
 		RegularExpressionReplacement.new("a", /^([^,]+)\.com\/blog\/feed([^,]+)$/, '\1,\2', /^([^,]*),([^,]*)$/, '\1.com/blog/feed\2'),
 		RegularExpressionReplacement.new("b", /^([^,]+)\.com\/blog\/([^,]+)$/, '\1,\2', /^([^,]*),([^,]*)$/, '\1.com/blog/\2'),
+		RegularExpressionReplacement.new("c", /^([^,]+)\.com\/blog$/, '\1', /^([^,]*)$/, '\1.com/blog'),
 
 		RegularExpressionReplacement.new("1", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default\?alt=rss$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default?alt=rss'),
 		RegularExpressionReplacement.new("0", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default'),

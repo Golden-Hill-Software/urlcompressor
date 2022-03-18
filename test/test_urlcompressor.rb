@@ -285,6 +285,8 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://www.foobar.com/blog/foos", "_bAfoobar,foos")
 		assert_pair("https://www.foobar.com/blog/fo,os", "Afoobar.com/blog/fo,os")
 		assert_pair("https://www.foob,ar.com/blog/foos", "Afoob,ar.com/blog/foos")
+
+		assert_pair("https://www.foobar.com/blog", "_cAfoobar")
 	end
 
 	def test_end_with_slash
