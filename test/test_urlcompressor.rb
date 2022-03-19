@@ -296,6 +296,11 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://www.foobar.com/blog", "_cAfoobar")
 	end
 	
+	def test_goodreads
+		assert_pair("https://www.goodreads.com/review/list_rss/10350463", "w10350463")
+		assert_pair("https://www.goodreads.com/user/updates_rss/10350463", "x10350463")
+	end
+	
 	def test_wordpress
 		assert_pair("https://californiacoder.wordpress.com/feed/", "_dBcaliforniacoder")
 		assert_pair("https://cocoacaffeine.wordpress.com/feed/", "_dBcocoacaffeine")
