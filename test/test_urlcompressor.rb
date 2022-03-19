@@ -240,6 +240,13 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://paulbuchheit.blogspot.com/", "_2Bpaulbuchheit")
 		assert_pair("https://www.paulbuchheit.blogspot.com/", "_2Apaulbuchheit")
 
+		assert_pair("http://paulbuchheit.blogspot.com/2010", "_2Dpaulbuchheit/2010")
+
+		assert_pair("http://paulbuchheit.blogspot.com/2020", "_2Dpaulbuchheit/2020")
+		assert_pair("http://www.paulbuchheit.blogspot.com/2020", "_2Cpaulbuchheit/2020")
+		assert_pair("https://paulbuchheit.blogspot.com/2020", "_2Bpaulbuchheit/2020")
+		assert_pair("https://www.paulbuchheit.blogspot.com/2020", "_2Apaulbuchheit/2020")
+
 		assert_pair("http://quantumg.blogspot.com/", "_2Dquantumg")
 		assert_pair("http://www.quantumg.blogspot.com/", "_2Cquantumg")
 		assert_pair("https://quantumg.blogspot.com/", "_2Bquantumg")
@@ -288,7 +295,7 @@ class UrlCompressorTest < Minitest::Test
 
 		assert_pair("https://www.foobar.com/blog", "_cAfoobar")
 	end
-
+	
 	def test_end_with_slash
 		assert_pair("https://www.goldenhillsoftware.com/", "Agoldenhillsoftware.com")
 	end
