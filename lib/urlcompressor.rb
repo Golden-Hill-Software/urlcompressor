@@ -81,6 +81,8 @@ class UrlCompressor
 		RegularExpressionReplacement.new("c", /^([^,]+)\.com\/blog$/, '\1', /^([^,]*)$/, '\1.com/blog'),
 		RegularExpressionReplacement.new("d", /^([^\/\.]+)\.wordpress\.com\/feed\/$/, '\1', /^([^,]*)$/, '\1.wordpress.com/feed/'),
 		RegularExpressionReplacement.new("e", /^([^\/\.]+)\.wordpress\.com\/(.*)$/, '\1/\2', /^([^\/]*)(\/?.*)$/, '\1.wordpress.com\2'),
+		RegularExpressionReplacement.new("f", /^([^\/\.]+)\.tumblr.com\/rss$/, '\1', /^([^\/]*)(\/?.*)$/, '\1.tumblr.com/rss\2'),
+		RegularExpressionReplacement.new("g", /^([^\/\.]+)\.tumblr.com\/(.*)$/, '\1/\2', /^([^\/]*)(\/?.*)$/, '\1.tumblr.com\2'),
 
 		RegularExpressionReplacement.new("1", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default\?alt=rss$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default?alt=rss'),
 		RegularExpressionReplacement.new("0", /^([A-Za-z0-9]+)\.blogspot.com\/feeds\/posts\/default$/, '\1', /^(.*)$/, '\1.blogspot.com/feeds/posts/default'),

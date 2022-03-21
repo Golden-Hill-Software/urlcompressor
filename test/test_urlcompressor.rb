@@ -310,6 +310,12 @@ class UrlCompressorTest < Minitest::Test
 		assert_pair("https://cocoacaffeine.wordpress.com/foobar", "_eBcocoacaffeine/foobar")
 	end
 	
+	def test_tumblr
+		assert_pair("https://html5watch.tumblr.com/rss", "_fBhtml5watch")
+		assert_pair("https://html5watch.tumblr.com/", "_gBhtml5watch")
+		assert_pair("https://html5watch.tumblr.com/foobar", "_gBhtml5watch/foobar")
+	end
+	
 	def test_end_with_slash
 		assert_pair("https://www.goldenhillsoftware.com/", "Agoldenhillsoftware.com")
 	end
