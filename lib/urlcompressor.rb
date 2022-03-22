@@ -105,32 +105,10 @@ class UrlCompressor
 			begin
 				return URI(url_string).normalize.to_s
 			rescue
-				pattern = /^(https?):\/\/([^\/]*)(.*)/i
-				if pattern =~ url_string
-					begin
-						scheme = $1
-						host_portion = $2
-						path = $3
-						auth = ""
-						port = ""
-						host = host_portion
-						host_split = host.split('@')
-						if host_split.length == 2
-							auth = host_split[0] + "@"
-							host = host_split[1]
-						end
-						host_split = host.split(':')
-						if host_split.length == 2
-							port = ":" + host_split[1]
-							host = host_split[0]
-						end
-						host = SimpleIDN.to_ascii(host)
-						url_string = "#{scheme}://#{auth}#{host}#{port}#{path}"
-						return URI(url_string).normalize.to_s
-					rescue
-						return url_string
-					end
-				else
+				begin
+					url_string = with_fixed_punicode(url_string)
+					return URI(url_string).normalize.to_s
+				rescue
 					return url_string
 				end
 			end
@@ -210,7 +188,17 @@ class UrlCompressor
 		if relative_url.nil?
 			return nil
 		end
-		return URI.join(origin_url_string, relative_url).to_s
+		begin
+			return URI.join(origin_url_string, relative_url).to_s
+		rescue
+			origin_url_string = normalized_url(origin_url_string)
+			relative_url = with_fixed_punicode(relative_url)
+ 			begin
+				return URI.join(origin_url_string, relative_url).to_s
+ 			rescue
+ 				return relative_url
+ 			end
+		end
 	end
 	
 	def self.decompressed_relative_url(decompressed_origin_url_string, compressed_relative_url)
@@ -311,6 +299,36 @@ class UrlCompressor
 			elsif compressed_url_string.start_with?(pair.short_prefix)
 				return "#{pair.long_prefix}#{compressed_url_string[pair.short_prefix.length...]}"
 			end
+		end
+	end
+	
+	def self.with_fixed_punicode(url_string)
+		pattern = /^((https?\:)?\/\/)([^\/]*)(.*)/i
+		if pattern =~ url_string
+			begin
+				scheme = $1
+				host_portion = $3
+				path = $4
+				auth = ""
+				port = ""
+				host = host_portion
+				host_split = host.split('@')
+				if host_split.length == 2
+					auth = host_split[0] + "@"
+					host = host_split[1]
+				end
+				host_split = host.split(':')
+				if host_split.length == 2
+					port = ":" + host_split[1]
+					host = host_split[0]
+				end
+				host = SimpleIDN.to_ascii(host)
+				return "#{scheme}#{auth}#{host}#{port}#{path}"
+			rescue => e
+				return url_string
+			end
+		else
+			return url_string
 		end
 	end
 

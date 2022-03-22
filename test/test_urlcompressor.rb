@@ -3,7 +3,7 @@ require 'urlcompressor'
 
 class UrlCompressorTest < Minitest::Test
 
-	def test_normalized_url
+	def test_punicode_normalized_url
 		assert_equal "https://www.goldenhillsoftware.com/foo", UrlCompressor.normalized_url("httpS://www.goldenhillsoftware.com:443/foo")
 		assert_equal "https://xn--ls8h.la/foo/bar", UrlCompressor.normalized_url("hTtps://💩.la/foo/bar")
 		assert_equal "https://xn--ls8h.la/", UrlCompressor.normalized_url("Https://💩.la")
@@ -14,6 +14,13 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "http://xn--ls8h.la:432/", UrlCompressor.normalized_url("Http://💩.la:432")
 		assert_equal "foobar", UrlCompressor.normalized_url("foobar")
 		assert_nil UrlCompressor.normalized_url(nil)
+	end
+	
+	def test_punicode_from_relative_url
+		assert_equal "https://xn--ls8h.la/foo/bar", UrlCompressor.from_relative_url("https://www.goldenhillsoftware.com/", "hTtps://💩.la/foo/bar")
+		assert_equal "https://xn--ls8h.la/foo/bar", UrlCompressor.from_relative_url("https://www.goldenhillsoftware.com/", "//💩.la/foo/bar")
+		assert_equal "http://xn--ls8h.la/foo/bar", UrlCompressor.from_relative_url("http://www.goldenhillsoftware.com/", "//💩.la/foo/bar")
+		assert_equal "http://xn--ls8h.la/foo/bar", UrlCompressor.from_relative_url("http://💩.la/", "/foo/bar")
 	end
 
 	def test_compressed_url
