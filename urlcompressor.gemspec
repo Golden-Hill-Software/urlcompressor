@@ -9,4 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    =
     'https://www.goldenhillsoftware.com/'
   s.license       = 'Nonstandard'
+  s.add_dependency "simpleidn"
 end
+
+

@@ -5,6 +5,13 @@ class UrlCompressorTest < Minitest::Test
 
 	def test_normalized_url
 		assert_equal "https://www.goldenhillsoftware.com/foo", UrlCompressor.normalized_url("httpS://www.goldenhillsoftware.com:443/foo")
+		assert_equal "https://xn--ls8h.la/foo/bar", UrlCompressor.normalized_url("hTtps://💩.la/foo/bar")
+		assert_equal "https://xn--ls8h.la/", UrlCompressor.normalized_url("Https://💩.la")
+		assert_equal "http://xn--ls8h.la/foobar", UrlCompressor.normalized_url("htTp://💩.la/foobar")
+		assert_equal "http://xn--ls8h.la/", UrlCompressor.normalized_url("Http://💩.la")
+		assert_equal "http://a:b@xn--ls8h.la/", UrlCompressor.normalized_url("Http://a:b@💩.la")
+		assert_equal "http://a:b@xn--ls8h.la:432/", UrlCompressor.normalized_url("Http://a:b@💩.la:432")
+		assert_equal "http://xn--ls8h.la:432/", UrlCompressor.normalized_url("Http://💩.la:432")
 		assert_equal "foobar", UrlCompressor.normalized_url("foobar")
 		assert_nil UrlCompressor.normalized_url(nil)
 	end

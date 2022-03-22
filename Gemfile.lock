@@ -1,0 +1,23 @@
+PATH
+  remote: .
+  specs:
+    urlcompressor (0.0.0)
+      simpleidn
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    simpleidn (0.2.1)
+      unf (~> 0.1.4)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.1)
+
+PLATFORMS
+  x86_64-darwin-19
+
+DEPENDENCIES
+  urlcompressor!
+
+BUNDLED WITH
+   2.2.17

@@ -1,4 +1,5 @@
 require 'uri'
+require 'simpleidn'
 
 class Pair
 	
@@ -104,7 +105,30 @@ class UrlCompressor
 			begin
 				return URI(url_string).normalize.to_s
 			rescue
-				return url_string
+				pattern = /^(https?):\/\/([^\/]*)(.*)/i
+				if pattern =~ url_string
+					scheme = $1
+					host_portion = $2
+					path = $3
+					auth = ""
+					port = ""
+					host = host_portion
+					host_split = host.split('@')
+					if host_split.length == 2
+						auth = host_split[0] + "@"
+						host = host_split[1]
+					end
+					host_split = host.split(':')
+					if host_split.length == 2
+						port = ":" + host_split[1]
+						host = host_split[0]
+					end
+					host = SimpleIDN.to_ascii(host)
+					url_string = "#{scheme}://#{auth}#{host}#{port}#{path}"
+					return URI(url_string).normalize.to_s
+				else
+					return url_string
+				end
 			end
 		end
 	end
