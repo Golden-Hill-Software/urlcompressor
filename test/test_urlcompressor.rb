@@ -12,6 +12,7 @@ class UrlCompressorTest < Minitest::Test
 		assert_equal "http://a:b@xn--ls8h.la/", UrlCompressor.normalized_url("Http://a:b@💩.la")
 		assert_equal "http://a:b@xn--ls8h.la:432/", UrlCompressor.normalized_url("Http://a:b@💩.la:432")
 		assert_equal "http://xn--ls8h.la:432/", UrlCompressor.normalized_url("Http://💩.la:432")
+		assert_equal "Dxn--ls8h.la:432", UrlCompressor.compressed_url("Http://💩.la:432")
 		assert_equal "foobar", UrlCompressor.normalized_url("foobar")
 		assert_nil UrlCompressor.normalized_url(nil)
 	end
@@ -78,6 +79,8 @@ class UrlCompressorTest < Minitest::Test
 	
 	def test_compressed_relative_url
 		assert_equal "I", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://www.goldenhillsoftware.com/")
+		assert_equal "Hxn--ls8h.la/foobar", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "//💩.la/foobar")
+		assert_equal "Hxn--ls8h.la/foobar", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://💩.la/foobar")
 		assert_equal "I", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/goo/feed/", "https://www.goldenhillsoftware.com/")
 		assert_equal "Gapple.com", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://www.Apple.com/")
 		assert_equal "Happle.com", UrlCompressor.compressed_relative_url("https://www.goldenhillsoftware.com/feed/", "https://Apple.com/")

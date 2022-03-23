@@ -145,7 +145,7 @@ class UrlCompressor
 			return normalized_url(url_string)
 		end
 		begin
-			normalized_origin = URI(origin_url_string).normalize
+			normalized_origin = URI(normalized_url(origin_url_string)).normalize
 			normalized_dest = normalized_url(url_string)
 			likely_result = normalized_origin.route_to(normalized_dest).to_s
 			
@@ -176,8 +176,8 @@ class UrlCompressor
 				return likely_result
 			end
 			
-		rescue
-			return url_string
+		rescue => e
+			return normalized_url(url_string)
 		end
 	end
 	
