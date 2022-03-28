@@ -119,7 +119,13 @@ class UrlCompressor
 		normalized = normalized_url(url_string)
 		compressed_url_string = compressed_url_string(normalized)
 		if !compressed_url_string.nil? and compressed_url_string.index('/') == compressed_url_string.length - 1
-			compressed_url_string = compressed_url_string[0..compressed_url_string.length-2]
+			begin
+				uri = URI(normalized)
+				if uri.path.nil? or uri.path.length < 2
+					compressed_url_string = compressed_url_string[0..compressed_url_string.length-2]
+				end
+			rescue
+			end
 		end
 		return compressed_url_string
 	end
@@ -176,7 +182,7 @@ class UrlCompressor
 				return likely_result
 			end
 			
-		rescue => e
+		rescue
 			return normalized_url(url_string)
 		end
 	end

@@ -336,6 +336,11 @@ class UrlCompressorTest < Minitest::Test
 	def test_end_with_slash
 		assert_pair("https://www.goldenhillsoftware.com/", "Agoldenhillsoftware.com")
 	end
+	
+	def test_wtf
+		assert_pair("https://chrispederick.com/blog/feed/","_aBchrispederick,/")
+		assert_pair("https://chrispederick.com/blog/feed","_bBchrispederick,feed")
+	end
 
 	def assert_pair(decompressed, compressed)
 		assert_equal compressed, UrlCompressor.compressed_url(decompressed), "compression failed for #{decompressed}"
